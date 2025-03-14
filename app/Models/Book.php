@@ -10,6 +10,13 @@ class Book extends Model
     /** @use HasFactory<\Database\Factories\BookFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'author',
+        'register_number',
+        'status',
+        'genre_id'
+    ];
 
     public function genre()
     {

@@ -1,22 +1,29 @@
 <script setup lang="ts">
-import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import {  LayoutGrid } from 'lucide-vue-next';
+import { BookOpen, LayoutGrid, LibraryBig, UsersRound, BookmarkCheck } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
+        title: 'Livros',
+        href: route('books.index'),
+        icon: BookOpen,
+    },
+    {
+        title: 'Usuários',
+        href: route('users.index'),
+        icon: UsersRound,
+    },
+    {
+        title: 'Empréstimos',
+        href: route('loans.index'),
+        icon: BookmarkCheck,
     },
 ];
-
-
 </script>
 
 <template>
@@ -25,7 +32,7 @@ const mainNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="route('dashboard')">
+                        <Link :href="route('books.index')">
                             <h1 class="text-extra-bold italic text-lg">Sistema Biblioteca📚</h1>
                         </Link>
                     </SidebarMenuButton>
