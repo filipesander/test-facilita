@@ -16,7 +16,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Rotas da Biblioteca
     Route::resource('users', App\Http\Controllers\UserController::class);
     Route::resource('books', App\Http\Controllers\BookController::class);
-    Route::resource('genres', App\Http\Controllers\GenreController::class);
     Route::resource('loans', App\Http\Controllers\LoanController::class);
 });
 

@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { Head, router } from '@inertiajs/vue3';
+import { useToast } from "vue-toastification";
 import AppLayout from '@/layouts/AppLayout.vue';
 import BookModal from '@/components/BookModal.vue';
 import BookEditModal from '@/components/BookEditModal.vue';
 import BookDeleteModal from '@/components/BookDeleteModal.vue';
+
+const toast = useToast();
 
 const props = defineProps<{
     books: {
@@ -17,6 +20,7 @@ const props = defineProps<{
     }[];
     genres: { id: number; name: string }[];
 }>();
+
 
 
 const showCreateModal = ref(false);
@@ -56,8 +60,10 @@ const saveBook = (bookData: any) => {
     router.post('/books', bookData, {
         onSuccess: () => {
             showCreateModal.value = false;
+            toast.success("📖 Livro adicionado com sucesso!");
         },
         onError: (errors) => {
+            toast.error("❌ Erro ao salvar livro.");
             console.error("Erro ao salvar livro:", errors);
         }
     });
@@ -66,26 +72,36 @@ const saveBook = (bookData: any) => {
 // Atualiza um livro
 const updateBook = (bookData: any) => {
     router.put(`/books/${bookData.id}`, bookData, {
+        preserveState: true,
         onSuccess: () => {
             showEditModal.value = false;
+            toast.success("✏️ Livro atualizado com sucesso!");
         },
         onError: (errors) => {
+            toast.error("❌ Erro ao atualizar livro.");
             console.error("Erro ao atualizar livro:", errors);
         }
     });
 };
 
-// Exclui livro
+// Deleta um livro
 const deleteBook = (bookId: number) => {
     router.delete(`/books/${bookId}`, {
+        preserveState: true,
         onSuccess: () => {
             showDeleteModal.value = false;
+            toast.success("🗑️ Livro excluído com sucesso!");
         },
         onError: (errors) => {
+            toast.error("❌ Erro ao excluir livro.");
             console.error("Erro ao excluir livro:", errors);
         }
     });
 };
+
+
+
+
 </script>
 
 <template>
@@ -133,7 +149,7 @@ const deleteBook = (bookId: number) => {
                             <td class="p-3">{{ book.register_number }}</td>
                             <td class="p-3">{{ book.genre.name }}</td>
                             <td class="p-3">
-                                <span :class="book.status === 'disponível' ? 'text-green-400' : 'text-red-400'">
+                                <span :class="book.status === 'Disponível' ? 'text-green-400' : 'text-red-400'">
                                     {{ book.status }}
                                 </span>
                             </td>
