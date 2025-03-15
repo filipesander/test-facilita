@@ -14,7 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     // Rotas da Biblioteca
-    Route::resource('users', App\Http\Controllers\UserController::class);
+    Route::resource('users-library', App\Http\Controllers\LibraryUserController::class);
     Route::resource('books', App\Http\Controllers\BookController::class);
     Route::resource('loans', App\Http\Controllers\LoanController::class);
 });
