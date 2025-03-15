@@ -17,6 +17,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('users-library', App\Http\Controllers\LibraryUserController::class);
     Route::resource('books', App\Http\Controllers\BookController::class);
     Route::resource('loans', App\Http\Controllers\LoanController::class);
+    Route::put('/loans/{loan}/status', [App\Http\Controllers\LoanController::class, 'updateStatus'])->name('loans.updateStatus');
+
 });
 
 require __DIR__.'/settings.php';

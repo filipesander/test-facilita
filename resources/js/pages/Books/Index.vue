@@ -110,7 +110,7 @@ const deleteBook = (bookId: number) => {
     <AppLayout>
         <div class="p-6">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-3xl font-bold">📚 Lista de Livros</h1>
+                <h1 class="text-3xl font-bold">📘 Lista de Livros</h1>
                 <button @click="showCreateModal = true"
                     class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700">
                     + Novo Livro

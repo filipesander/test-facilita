@@ -9,13 +9,15 @@ class Loan extends Model
 {
     /** @use HasFactory<\Database\Factories\LoanFactory> */
     use HasFactory;
-    protected $fillable = ['library_user_id', 'book_id', 'due_date', 'status'];
+    protected $fillable = ['library_user_id', 'book_id', 'loan_date', 'return_date', 'status'];
 
-    public function user()
+    // Relacionamento correto com LibraryUser
+    public function libraryUser()
     {
         return $this->belongsTo(LibraryUser::class, 'library_user_id');
     }
 
+    // Relacionamento com Book
     public function book()
     {
         return $this->belongsTo(Book::class);
