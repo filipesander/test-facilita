@@ -18,20 +18,18 @@ const props = defineProps<{
     genres: { id: number; name: string }[];
 }>();
 
-// Estado dos modais
+
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 
-// Estado do livro selecionado
 const selectedBook = ref<any>({});
 
-// Filtros
 const search = ref('');
 const author = ref('');
 const status = ref('');
 
-// Filtragem dinâmica
+// Filtros
 const filteredBooks = computed(() => {
     return props.books.filter((book) => {
         return (
@@ -44,7 +42,7 @@ const filteredBooks = computed(() => {
 
 // Métodos para abrir modais
 const openEditModal = (book: any) => {
-    selectedBook.value = { ...book }; // Garante que não há mutações diretas
+    selectedBook.value = { ...book };
     showEditModal.value = true;
 };
 
@@ -53,7 +51,7 @@ const openDeleteModal = (book: any) => {
     showDeleteModal.value = true;
 };
 
-// Enviar novo livro para o backend
+// Cria um livro
 const saveBook = (bookData: any) => {
     router.post('/books', bookData, {
         onSuccess: () => {
@@ -65,7 +63,7 @@ const saveBook = (bookData: any) => {
     });
 };
 
-// Atualizar livro existente
+// Atualiza um livro
 const updateBook = (bookData: any) => {
     router.put(`/books/${bookData.id}`, bookData, {
         onSuccess: () => {
@@ -77,7 +75,7 @@ const updateBook = (bookData: any) => {
     });
 };
 
-// Excluir livro
+// Exclui livro
 const deleteBook = (bookId: number) => {
     router.delete(`/books/${bookId}`, {
         onSuccess: () => {
@@ -116,7 +114,6 @@ const deleteBook = (bookId: number) => {
                 </select>
             </div>
 
-            <!-- Tabela -->
             <div class="overflow-x-auto bg-gray-900 rounded-lg p-4">
                 <table class="w-full text-left border-collapse">
                     <thead class="bg-gray-800 text-white">
@@ -153,7 +150,6 @@ const deleteBook = (bookId: number) => {
             </div>
         </div>
 
-        <!-- Modais -->
         <BookModal v-if="showCreateModal" @close="showCreateModal = false" @save="saveBook" :genres="props.genres" />
         <BookEditModal v-if="showEditModal" @close="showEditModal = false" @save="updateBook" :book="selectedBook" :genres="props.genres" />
         <BookDeleteModal v-if="showDeleteModal && selectedBook" :bookId="selectedBook?.id" @close="showDeleteModal = false" @delete="deleteBook" />

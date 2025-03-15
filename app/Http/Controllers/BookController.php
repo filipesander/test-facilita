@@ -1,14 +1,22 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Book\StoreBookRequest;
+use App\Http\Requests\Book\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Genre;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class BookController extends Controller
 {
-    public function index()
+    /**
+     * Retonar todos os livros cadastrados
+     * @return \Inertia\Response
+     */
+    public function index(): \Inertia\Response
     {
         $books = Book::with('genre')->orderBy('name')->get();
         $genres = Genre::all();
@@ -18,37 +26,52 @@ class BookController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    /**
+     * Cria um livro
+     * @param StoreBookRequest $request
+     * @return RedirectResponse
+     */
+    public function store(StoreBookRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'register_number' => 'required|string|unique:books',
-            'status' => 'required|string',
-            'genre_id' => 'required|exists:genres,id'
-        ]);
+        try {
+            $validatedData = $request->validated();
 
-        Book::create($request->all());
+            Book::create($validatedData);
 
-        return redirect()->route('books.index')->with('success', 'Livro adicionado com sucesso!');
+            return redirect()->route('books.index')->with('success', 'Livro adicionado com sucesso!');
+        } catch (\Exception $e) {
+            Log::error('Erro ao adicionar livro: ' . $e->getMessage());
+
+            return back()->withErrors('Erro ao adicionar o livro. Tente novamente.');
+        }
     }
 
-    public function update(Request $request, Book $book)
+    /**
+     * Atualiza um livro
+     * @param UpdateBookRequest $request
+     * @param Book $book
+     * @return RedirectResponse
+     */
+    public function update(UpdateBookRequest $request, Book $book): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'register_number' => 'required|string|unique:books,register_number,' . $book->id,
-            'status' => 'required|string',
-            'genre_id' => 'required|exists:genres,id'
-        ]);
+        try {
+            $validatedData = $request->validated();
 
-        $book->update($request->all());
+            $book->update($validatedData);
 
-        return redirect()->route('books.index')->with('success', 'Livro atualizado com sucesso!');
+            return redirect()->route('books.index')->with('success', 'Livro atualizado com sucesso!');
+        } catch (\Exception $e) {
+            Log::error('Erro ao atualizar livro: ' . $e->getMessage());
+            return back()->withErrors('Erro ao atualizar o livro. Tente novamente.');
+        }
     }
 
-    public function destroy(Book $book)
+    /**
+     * Exclui um livro
+     * @param Book $book
+     * @return RedirectResponse
+     */
+    public function destroy(Book $book): RedirectResponse
     {
         $book->delete();
         return redirect()->route('books.index')->with('success', 'Livro excluído com sucesso!');

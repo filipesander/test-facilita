@@ -4,7 +4,7 @@ namespace App\Http\Requests\Book;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BookRequest extends FormRequest
+class UpdateBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class BookRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'author' => 'required|string|max:255',
-            'register_number' => 'required|string|unique:books,register_number,' . $this->book?->id,
-            'status' => 'required|in:Emprestado,Disponível',
-            'genre_id' => 'required|exists:genres,id',
+            'register_number' => 'required|string|unique:books,register_number,' . $this->route('book')->id,
+            'status' => 'required|string|in:disponível,emprestado',
+            'genre_id' => 'required|exists:genres,id'
         ];
     }
 }
