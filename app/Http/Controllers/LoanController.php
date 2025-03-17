@@ -14,6 +14,10 @@ use Inertia\Inertia;
 
 class LoanController extends Controller
 {
+    /**
+     * Listagem de emprestimos
+     * @return \Inertia\Response
+     */
     public function index(): \Inertia\Response
     {
         $loans = Loan::with(['libraryUser', 'book'])->orderBy('return_date')->get();
@@ -27,11 +31,17 @@ class LoanController extends Controller
         ]);
     }
 
+    /**
+     * Cria um emprestimo
+     * @param StoreLoanRequest $request
+     * @return RedirectResponse
+     */
     public function store(StoreLoanRequest $request): RedirectResponse
     {
         try {
+            $validatedData = $request->validated();
+            Loan::create($validatedData);
 
-            Loan::create($request->validated());
             return redirect()->route('loans.index')->with('success', 'Empréstimo registrado com sucesso!');
         } catch (\Exception $e) {
             Log::error('Erro ao registrar empréstimo: ' . $e->getMessage());
@@ -39,10 +49,18 @@ class LoanController extends Controller
         }
     }
 
+    /**
+     * Atualiza um emprestimo
+     * @param UpdateLoanRequest $request
+     * @param Loan $loan
+     * @return RedirectResponse
+     */
     public function update(UpdateLoanRequest $request, Loan $loan): RedirectResponse
     {
         try {
-            $loan->update($request->validated());
+            $validatedData = $request->validated();
+
+            $loan->update($validatedData);
             return redirect()->route('loans.index')->with('success', 'Empréstimo atualizado com sucesso!');
         } catch (\Exception $e) {
             Log::error('Erro ao atualizar empréstimo: ' . $e->getMessage());
@@ -51,7 +69,13 @@ class LoanController extends Controller
     }
 
 
-    public function updateStatus(Request $request, Loan $loan)
+    /**
+     * Atualiza o status de um emprestimo
+     * @param Request $request
+     * @param Loan $loan
+     * @return RedirectResponse
+     */
+    public function updateStatus(Request $request, Loan $loan): RedirectResponse
     {
         $request->validate([
             'status' => 'required|in:emprestado,devolvido,atrasado'
@@ -66,6 +90,11 @@ class LoanController extends Controller
         }
     }
 
+    /**
+     * Deleta um emprestimo
+     * @param Loan $loan
+     * @return RedirectResponse
+     */
     public function destroy(Loan $loan): RedirectResponse
     {
         try {
