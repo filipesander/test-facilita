@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LibraryUser\StoreLibraryUserRequest;
+use App\Http\Requests\LibraryUser\UpdateLibraryUserRequest;
 use App\Models\LibraryUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -48,7 +49,7 @@ class LibraryUserController extends Controller
      * @param LibraryUser $users_library
      * @return RedirectResponse
      */
-    public function update(Request $request, LibraryUser $users_library): RedirectResponse
+    public function update(UpdateLibraryUserRequest $request, LibraryUser $users_library): RedirectResponse
     {
         try {
             $validatedData = $request->validated();
