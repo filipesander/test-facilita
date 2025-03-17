@@ -96,10 +96,12 @@ Depois de roda as migrations, execute as seeders para popular o banco:
 php artisan db:seed --class=GenreSeeder
 ````
 
-& depois: 
+````
+php artisan db:seed --class=BookSeeder
+````
 
 ````
-php artisan db:seed 
+php artisan db:seed --class=LibraryUserSeeder
 ````
 
 ### 6. **Suba os ambientes**
