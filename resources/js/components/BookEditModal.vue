@@ -48,7 +48,7 @@ const submit = () => {
             </select>
             <select v-model="form.status" class="w-full p-2 mb-4 bg-gray-800 text-white rounded">
                 <option value="disponível">✅ Disponível</option>
-                <option value="indisponível">❌ Indisponível</option>
+                <option value="emprestado">❌ Emprestado</option>
             </select>
             <div class="flex justify-between">
                 <button @click="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Salvar</button>
