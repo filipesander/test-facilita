@@ -24,7 +24,7 @@ class StoreLoanRequest extends FormRequest
         return [
             'library_user_id' => 'required|exists:library_users,id',
             'book_id' => 'required|exists:books,id',
-            'due_date' => 'required|date|after:today',
+            'return_date' => 'required|date|after:today',
             'status' => 'nullable|in:emprestado,atrasado,devolvido',
         ];
     }

@@ -28,7 +28,7 @@
 
                 <div class="mb-4">
                     <label for="due_date" class="block text-gray-300 text-sm mb-1">📅 Data de Devolução</label>
-                    <input v-model="form.due_date" id="due_date" type="date"
+                    <input v-model="form.return_date" id="due_date" type="date"
                         class="p-3 border rounded bg-gray-800 text-white w-full">
                 </div>
 
@@ -58,7 +58,7 @@ const isOpen = ref(true);
 const form = ref({
     library_user_id: "",
     book_id: "",
-    due_date: "",
+    return_date: "",
 });
 
 function close() {

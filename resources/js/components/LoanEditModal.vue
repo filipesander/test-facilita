@@ -5,6 +5,8 @@ import { useToast } from "vue-toastification";
 
 const toast = useToast();
 const props = defineProps(["loan"]);
+const emit = defineEmits(["close", "update"]);
+
 const loanStatus = ref(props.loan.status);
 
 const updateStatus = () => {

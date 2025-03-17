@@ -16,7 +16,7 @@ class LoanController extends Controller
 {
     public function index(): \Inertia\Response
     {
-        $loans = Loan::with(['libraryUser', 'book'])->orderBy('due_date')->get();
+        $loans = Loan::with(['libraryUser', 'book'])->orderBy('return_date')->get();
         $users = LibraryUser::orderBy('name')->get();
         $books = Book::orderBy('name')->get();
 
@@ -30,6 +30,7 @@ class LoanController extends Controller
     public function store(StoreLoanRequest $request): RedirectResponse
     {
         try {
+
             Loan::create($request->validated());
             return redirect()->route('loans.index')->with('success', 'Empréstimo registrado com sucesso!');
         } catch (\Exception $e) {
